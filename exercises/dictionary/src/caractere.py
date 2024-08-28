@@ -1,5 +1,5 @@
 """
-Escreva um programa que:
+Escreva um programa Python que:
  1° Gere um dicionário em que:
     # Cada chave seja um caractere,
     # Seu valor seja o número da posição desse caractere encontrado em uma frase lida.
@@ -8,14 +8,20 @@ Escreva um programa que:
 """
 
 
-dictionary: dict = {}
-string: str = input("STRING: ")
+# Exemplo do Gemini!
+def criar_dicionario_posicoes(frase: str):
+    dicionario_posicoes = {}
+    
+    for indice, caractere in enumerate(frase):
+        if caractere not in dicionario_posicoes:
+            dicionario_posicoes[caractere.strip()] = indice + 1  # +1 para começar a contagem em 1
+            
+        if caractere == " ":
+            indice += 1
+    return dicionario_posicoes
 
-for i in range(0, string.__len__()):
-    if string.strip(" "):
-        for char_key, char_value in dictionary.items():
 
-            char_value[i] = i
-
-
-print(dictionary.items())
+# Exemplo de uso:
+frase = input("Digite uma frase: ")
+resultado = criar_dicionario_posicoes(frase)
+print(resultado)

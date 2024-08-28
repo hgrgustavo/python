@@ -3,6 +3,7 @@
 2° Faz a venda, imprimindo-a
 3° Melhorar os outputs
 4° Impressão do estoque atualizado
+
 """
 
 estoque = {
