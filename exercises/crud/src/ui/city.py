@@ -4,7 +4,10 @@ add combo box
 """
 
 from tkinter import *
+from tkinter import ttk
+
 from src.crud.city import City
+from src.treeview import fetch_data, populate_treeview
 
 
 class CityApp:
@@ -48,7 +51,7 @@ class CityApp:
 
         # search button
         self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=10, command=self.select)
-        self.search_button.pack(side=RIGHT)
+        self.search_button.pack(side=RIGHT, padx=5)
 
         self.buttons_frame = Frame(master)
         self.buttons_frame.pack()
@@ -72,12 +75,18 @@ class CityApp:
         self.message_frame.pack()
         self.message_label.pack()
 
-        # pop-up message
-        self.message_frame = Frame(master)
-        self.message_label = Label(self.message_frame, text="", font=self.font)
+        # treeview area
+        treeview_obj = ttk.Treeview(master, columns=("ID", "NOME", "ESTADO"), show="headings")
 
-        self.message_frame.pack()
-        self.message_label.pack()
+        treeview_obj.heading("ID", text="ID")
+        treeview_obj.heading("NOME", text="NOME")
+        treeview_obj.heading("ESTADO", text="ESTADO")
+
+        data = fetch_data("city")
+
+        populate_treeview(treeview_obj, data)
+
+        treeview_obj.pack(fill=BOTH, expand=True)
 
     # crud methods
     def insert(self):

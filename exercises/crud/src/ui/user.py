@@ -1,9 +1,10 @@
 """
 connect to crud
+add treeview
 """
-
 from tkinter import *
 from src.crud.user import User
+from src.treeview import *
 
 
 class UserApp:
@@ -23,9 +24,13 @@ class UserApp:
         self.id_label = Label(self.id_frame, text="ID", font=self.font, width=5)
         self.id_entry = Entry(self.id_frame, width=5, font=self.font)
 
+        # combobox
+        self.combobox = ttk.Combobox(self.id_entry)
+
         self.id_frame.pack()
         self.id_label.pack(side=LEFT)
         self.id_entry.pack(side=LEFT)
+        self.combobox.pack()
 
         # name
         self.name_frame = Frame(master, padx=20, pady=5)
@@ -63,7 +68,7 @@ class UserApp:
         self.username_label.pack(side=LEFT)
         self.username_entry.pack(side=LEFT)
 
-        # senha
+        # password
         self.password_frame = Frame(master, padx=20, pady=5)
         self.password_label = Label(self.password_frame, text="SENHA", font=self.font, width=10)
         self.password_entry = Entry(self.password_frame, width=25, show="•", font=self.font)
@@ -91,16 +96,35 @@ class UserApp:
         self.delete_button = Button(self.buttons_frame, text="DELETAR", font=self.font, width=10, command=self.delete)
         self.delete_button.pack(side=RIGHT)
 
+        """
         # pop-up message
         self.message_frame = Frame(master)
         self.message_label = Label(self.message_frame, text="", font=self.font)
 
         self.message_frame.pack()
         self.message_label.pack()
+        """
+
+        # treeview area
+        treeview_obj = ttk.Treeview(master, columns=("ID", "NOME", "TELEFONE", "EMAIL"), show="headings")
+
+        treeview_obj.heading("ID", text="ID")
+        treeview_obj.heading("NOME", text="NOME")
+        treeview_obj.heading("TELEFONE", text="TELEFONE")
+        treeview_obj.heading("EMAIL", text="EMAIL")
+
+        data = fetch_data("user")
+
+        populate_treeview(treeview_obj, data)
+
+        treeview_obj.bind("<<TreeviewSelect>>", select_event_user)
+
+        treeview_obj.pack(fill=BOTH, expand=True)
 
     # crud methods
     def insert(self):
-        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.username_entry.get(), self.password_entry.get())
+        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
+                    self.username_entry.get(), self.password_entry.get())
 
         self.id_entry.delete(0, END)
         self.name_entry.delete(0, END)
@@ -112,7 +136,8 @@ class UserApp:
         self.message_label["text"] = user.insert()
 
     def update(self):
-        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.username_entry.get(), self.password_entry.get())
+        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
+                    self.username_entry.get(), self.password_entry.get())
 
         self.id_entry.delete(0, END)
         self.name_entry.delete(0, END)
@@ -124,7 +149,8 @@ class UserApp:
         self.message_label["text"] = user.update()
 
     def delete(self):
-        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.username_entry.get(), self.password_entry.get())
+        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
+                    self.username_entry.get(), self.password_entry.get())
 
         self.id_entry.delete(0, END)
         self.name_entry.delete(0, END)
@@ -133,10 +159,11 @@ class UserApp:
         self.username_entry.delete(0, END)
         self.password_entry.delete(0, END)
 
-        self.message_label["text"] = User.delete(user, self.id_entry.get())
+        self.message_label["text"] = User.delete(user)
 
     def select(self):
-        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.username_entry.get(), self.password_entry.get())
+        user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
+                    self.username_entry.get(), self.password_entry.get())
 
         self.id_entry.delete(0, END)
         self.name_entry.delete(0, END)
@@ -150,5 +177,5 @@ class UserApp:
 
 window = Tk()
 UserApp(window)
-window.geometry("600x400")
+window.geometry("920x650")
 window.mainloop()

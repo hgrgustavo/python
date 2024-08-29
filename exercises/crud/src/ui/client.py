@@ -1,5 +1,9 @@
+from tkinter import ttk
+
 from src.crud.client import Client
 from tkinter import *
+
+from src.treeview import fetch_data, populate_treeview
 
 
 class ClientApp:
@@ -69,8 +73,8 @@ class ClientApp:
         self.address_entry.pack()
 
         # search button
-        self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=5, command=self.select)
-        self.search_button.pack(side=RIGHT)
+        self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=10, command=self.select)
+        self.search_button.pack(side=RIGHT, padx=5)
 
         self.buttons_frame = Frame(master)
         self.buttons_frame.pack()
@@ -100,6 +104,22 @@ class ClientApp:
 
         self.message_frame.pack()
         self.message_label.pack()
+
+        # treeview area
+        treeview_obj = ttk.Treeview(master, columns=("ID", "NOME", "CPF", "TELEFONE", "EMAIL", "ENDEREÇO"), show="headings")
+
+        treeview_obj.heading("ID", text="ID")
+        treeview_obj.heading("NOME", text="NOME")
+        treeview_obj.heading("CPF", text="CPF")
+        treeview_obj.heading("TELEFONE", text="TELEFONE")
+        treeview_obj.heading("EMAIL", text="EMAIL")
+        treeview_obj.heading("ENDEREÇO", text="ENDEREÇO")
+
+        data = fetch_data("client")
+
+        populate_treeview(treeview_obj, data)
+
+        treeview_obj.pack(fill=BOTH, expand=True)
 
     # crud methods
     def insert(self):
@@ -153,5 +173,5 @@ class ClientApp:
 
 window = Tk()
 ClientApp(window)
-window.geometry("600x400")
+window.geometry("1350x650")
 window.mainloop()

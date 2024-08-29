@@ -1,4 +1,5 @@
 from src.database.db import Database
+from src.messagebox import *
 
 database = Database()
 
@@ -21,9 +22,10 @@ class User:
             database.commit()
             database.cursor.close()
 
-            return "Usuário cadastrado com sucesso!"
+            # return "Usuário cadastrado com sucesso!"
+            return infowindow("Usuário cadastrado com sucesso!.")
         except:
-            return "Erro ao cadastrar usuário!"
+            return errorwindow("Erro ao cadastrar usuário.")
 
     def update(self):
         try:
@@ -34,12 +36,13 @@ class User:
 
             return "Usuário atualizado com sucesso!"
 
+
         except:
             return "Erro ao atualizar usuário"
 
-    def delete(self, user_id):
+    def delete(self):
         try:
-            database.cursor.execute("delete from usuario where id = '" + user_id + "'")
+            database.cursor.execute("delete from usuario where id = '" + self.id + "'")
             database.commit()
             database.cursor.close()
 

@@ -3,16 +3,16 @@ from src.database.db import Database
 database = Database()
 
 class City:
-    def __init__(self, cidade_id, nome: str, uf:str):
+    def __init__(self, city_id, name: str, uf:str):
         self.dict: {}
 
-        self.id = cidade_id
-        self.nome = nome
+        self.id = city_id
+        self.name = name
         self.uf = uf
 
     def insert(self) -> str:
         try:
-            database.cursor.execute("insert into cidade (nome, uf) values ('" + self.nome + "', '" + self.uf + "'")
+            database.cursor.execute("insert into city (name, uf) values ('" + self.name + "', '" + self.uf + "'")
             database.commit()
             database.cursor.close()
 
@@ -23,7 +23,7 @@ class City:
 
     def update(self) -> str:
         try:
-            database.cursor.execute("update cidade set nome = '" + self.nome + "', '" + self.uf + "'")
+            database.cursor.execute("update city set name = '" + self.name + "', '" + self.uf + "'")
             database.commit()
             database.cursor.close()
 
@@ -34,7 +34,7 @@ class City:
 
     def delete(self) -> str:
         try:
-            database.cursor.execute("delete from cidade where id = '" + self.id + "'")
+            database.cursor.execute("delete from city where id = '" + self.id + "'")
             database.commit()
             database.cursor.close()
 
@@ -42,9 +42,9 @@ class City:
         except:
             return "Erro ao excluir cidade!"
 
-    def select(self, cidade_id) -> str:
+    def select(self, city_id) -> str:
         try:
-            database.cursor.execute("select * from cidade where id = '" + cidade_id +"'")
+            database.cursor.execute("select * from city where id = '" + city_id +"'")
             database.commit()
             database.cursor.close()
 
@@ -52,7 +52,7 @@ class City:
 
             for row in data:
                 self.id = row[0]
-                self.nome = row[1]
+                self.name = row[1]
                 self.uf = row[2]
 
             return "Busca feita com sucesso!"

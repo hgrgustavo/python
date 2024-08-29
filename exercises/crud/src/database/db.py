@@ -25,35 +25,34 @@ class Database:
         self.cursor.execute("""
                     create table if not exists user (
                         id integer primary key autoincrement,
-                        nome text,
-                        telefone integer,
+                        name text,
+                        phone integer,
                         email text,
                         username text,
-                        senha text    
-                    )""")
+                        password text    
+                    )
+        """)
 
     def create_table_city(self):
         self.cursor.execute("""
                     create table if not exists city (
                         id integer primary key autoincrement,
-                        nome text,
+                        name text,
                         uf text
                     )
-                    
         """)
 
     def create_table_client(self):
         self.cursor.execute("""
                     create table if not exists client (
                         id integer primary key autoincrement,
-                        nome text,
+                        name text,
                         cpf text,
-                        telefone text,
+                        phone text,
                         email text,
-                        endereco text
+                        address text
                         
                     )
-                    
         """)
 
     def commit(self):
