@@ -1,51 +1,61 @@
 from src.database.db import Database
+from tkinter import messagebox
 
-database = Database()
+
 
 class City:
-    def __init__(self, city_id, name: str, uf:str):
+    def __init__(self, city_id, name: str, uf: str):
         self.dict: {}
 
         self.id = city_id
         self.name = name
         self.uf = uf
 
-    def insert(self) -> str:
+    def insert(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute("insert into city (name, uf) values ('" + self.name + "', '" + self.uf + "'")
-            database.commit()
+            database.connection.commit()
             database.cursor.close()
 
-            return "Cidade cadastrada com sucesso!"
+            return messagebox.showinfo("", "Cidade cadastrada com sucesso.")
 
         except:
-            return "Erro ao cadastrar cidade!"
+            return messagebox.showerror("", "Erro ao cadastrar cidade.")
 
-    def update(self) -> str:
+    def update(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute("update city set name = '" + self.name + "', '" + self.uf + "'")
-            database.commit()
+            database.connection.commit()
             database.cursor.close()
 
-            return "Cidade atualizada com sucesso!"
+            return messagebox.showinfo("", "Cidade atualizada com sucesso.")
 
         except:
-            return "Erro ao atualizar cidade!"
+            return messagebox.showerror("", "Erro ao atualizar cidade.")
 
-    def delete(self) -> str:
+    def delete(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute("delete from city where id = '" + self.id + "'")
-            database.commit()
+            database.connection.commit()
             database.cursor.close()
 
-            return "Cidade excluida com sucesso!"
-        except:
-            return "Erro ao excluir cidade!"
+            return messagebox.showinfo("", "Cidade excluida com sucesso.")
 
-    def select(self, city_id) -> str:
+        except:
+            return messagebox.showerror("", "Erro ao excluir cidade.")
+
+    def select(self, city_id) -> messagebox:
+        database = Database()
+
         try:
-            database.cursor.execute("select * from city where id = '" + city_id +"'")
-            database.commit()
+            database.cursor.execute("select * from city where id = '" + city_id + "'")
+            database.connection.commit()
             database.cursor.close()
 
             data = []
@@ -55,12 +65,7 @@ class City:
                 self.name = row[1]
                 self.uf = row[2]
 
-            return "Busca feita com sucesso!"
+            return messagebox.showinfo("", "Busca feita com sucesso.")
 
         except:
-            return "Erro ao buscar cidade!"
-
-
-
-
-
+            return messagebox.showerror("", "Erro ao buscar cidade.")

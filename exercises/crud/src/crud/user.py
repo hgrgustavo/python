@@ -1,7 +1,5 @@
+from tkinter import messagebox
 from src.database.db import Database
-from src.messagebox import *
-
-database = Database()
 
 
 class User:
@@ -15,46 +13,53 @@ class User:
         self.username = username
         self.password = password
 
-    def insert(self):
+    def insert(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute(
-                "insert into usuario (name, phone, email, username, password) values ('" + self.name + "', '" + self.phone + "', '" + self.email + "', '" + self.username + "', '" + self.password + "')")
-            database.commit()
+                "insert into user (name, phone, email, username, password) values ('" + self.name + "', '" + self.phone + "', '" + self.email + "', '" + self.username + "', '" + self.password + "')")
+            database.connection.commit()
             database.cursor.close()
 
-            # return "Usuário cadastrado com sucesso!"
-            return infowindow("Usuário cadastrado com sucesso!.")
-        except:
-            return errorwindow("Erro ao cadastrar usuário.")
+            return messagebox.showinfo("", "Usuário cadastrado com sucesso.")
 
-    def update(self):
+        except:
+            return messagebox.showerror("", "Erro ao cadastrar usuário.")
+
+    def update(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute(
-                "update usuario set name = '" + self.name + "', '" + self.phone + "', '" + self.email + "', '" + self.username + "', '" + self.password + "'")
-            database.commit()
+                "update user set name = '" + self.name + "', '" + self.phone + "', '" + self.email + "', '" + self.username + "', '" + self.password + "'")
+            database.connection.commit()
             database.cursor.close()
 
-            return "Usuário atualizado com sucesso!"
-
+            return messagebox.showinfo("", "Usuário atualizado com sucesso.")
 
         except:
-            return "Erro ao atualizar usuário"
+            return messagebox.showerror("", "Erro ao atualizar usuário.")
 
-    def delete(self):
+    def delete(self) -> messagebox:
+        database = Database()
+
         try:
-            database.cursor.execute("delete from usuario where id = '" + self.id + "'")
-            database.commit()
+            database.cursor.execute("delete from user where id = '" + self.id + "'")
+            database.connection.commit()
             database.cursor.close()
 
-            return "Usuário excluido com sucesso!"
+            return messagebox.showinfo("", "Usuário excluido com sucesso.")
 
         except:
-            return "Erro ao excluir usuário"
+            return messagebox.showerror("", "Erro ao excluir usuário.")
 
-    def select(self, user_id):
+    def select(self, user_id) -> messagebox:
+        database = Database()
+
         try:
-            database.cursor.execute("select * from usuario where id = '" + user_id + "'")
-            database.commit()
+            database.cursor.execute("select * from user where id = '" + user_id + "'")
+            database.connection.commit()
             database.cursor.close()
 
             data = []
@@ -67,7 +72,11 @@ class User:
                 self.username = row[4]
                 self.password = row[5]
 
-            return "Busca feita com sucesso!"
+            return messagebox.showinfo("", "Busca feita com sucesso.")
 
         except:
-            return "Erro ao buscar usuário!"
+            return messagebox.showerror("", "Erro ao buscar usuário.")
+
+
+    def populate_treeview(self, event):
+

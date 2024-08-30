@@ -1,9 +1,9 @@
-from tkinter import ttk
+from tkinter.ttk import Combobox
 
 from src.crud.client import Client
 from tkinter import *
 
-from src.treeview import fetch_data, populate_treeview
+from src.treeview import *
 
 
 class ClientApp:
@@ -13,7 +13,7 @@ class ClientApp:
 
         # title
         self.title_frame = Frame(master)
-        self.title_label = Label(self.title_frame, text="CADASTRO DE ", font=self.font)
+        self.title_label = Label(self.title_frame, text="CADASTRO DE CLIENTE", font=self.font)
 
         self.title_frame.pack()
         self.title_label.pack()
@@ -23,9 +23,13 @@ class ClientApp:
         self.id_label = Label(self.id_frame, text="ID", font=self.font, width=5)
         self.id_entry = Entry(self.id_frame, width=5, font=self.font)
 
+            # combobox
+        self.combobox = Combobox(self.id_entry, width=5)
+
         self.id_frame.pack(pady=12)
         self.id_label.pack(side=LEFT)
         self.id_entry.pack(side=LEFT)
+        self.combobox.pack()
 
         # name
         self.name_frame = Frame(master)
@@ -47,10 +51,10 @@ class ClientApp:
 
         # phone
         self.phone_frame = Frame(master)
-        self.phone_label = Label(self.phone_frame, text="TELEFONE", font=self.font, width=5)
+        self.phone_label = Label(self.phone_frame, text="TELEFONE", font=self.font, width=9)
         self.phone_entry = Entry(self.phone_frame, font=self.font)
 
-        self.phone_frame.pack(pady=6)
+        self.phone_frame.pack()
         self.phone_label.pack(side=LEFT)
         self.phone_entry.pack()
 
@@ -73,7 +77,7 @@ class ClientApp:
         self.address_entry.pack()
 
         # search button
-        self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=10, command=self.select)
+        self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=4, command=self.select)
         self.search_button.pack(side=RIGHT, padx=5)
 
         self.buttons_frame = Frame(master)
@@ -91,20 +95,15 @@ class ClientApp:
         self.delete_button = Button(self.buttons_frame, text="DELETAR", font=self.font, width=10, command=self.delete)
         self.delete_button.pack(side=RIGHT)
 
+        """
         # pop-up message
         self.message_frame = Frame(master)
         self.message_label = Label(self.message_frame, text="", font=self.font)
 
         self.message_frame.pack()
         self.message_label.pack()
-
-        # pop-up message
-        self.message_frame = Frame(master)
-        self.message_label = Label(self.message_frame, font=self.font)
-
-        self.message_frame.pack()
-        self.message_label.pack()
-
+        """
+    
         # treeview area
         treeview_obj = ttk.Treeview(master, columns=("ID", "NOME", "CPF", "TELEFONE", "EMAIL", "ENDEREÇO"), show="headings")
 
@@ -132,7 +131,7 @@ class ClientApp:
         self.email_entry.delete(0, END)
         self.address_entry.delete(0, END)
 
-        self.message_label["text"] = client.insert()
+        client.insert()
 
     def update(self):
         client = Client(self.id_entry.get(), self.name_entry.get(), self.cpf_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.address_entry.get())
@@ -144,7 +143,7 @@ class ClientApp:
         self.email_entry.delete(0, END)
         self.address_entry.delete(0, END)
 
-        self.message_label["text"] = Client.update(client)
+        client.update()
 
     def delete(self):
         client = Client(self.id_entry.get(), self.name_entry.get(), self.cpf_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.address_entry.get())
@@ -156,7 +155,7 @@ class ClientApp:
         self.email_entry.delete(0, END)
         self.address_entry.delete(0, END)
 
-        self.message_label["text"] = Client.delete(client, self.id_entry.get())
+        client.delete()
 
     def select(self):
         client = Client(self.id_entry.get(), self.name_entry.get(), self.cpf_entry.get(), self.phone_entry.get(), self.email_entry.get(), self.address_entry.get())
@@ -168,7 +167,7 @@ class ClientApp:
         self.email_entry.delete(0, END)
         self.address_entry.delete(0, END)
 
-        self.message_label["text"] = Client.select(client, self.id_entry.get())
+        client.select(self.id_entry.get())
 
 
 window = Tk()

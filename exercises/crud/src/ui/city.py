@@ -1,13 +1,12 @@
 """
-connect to database
-add combo box
+
 """
 
 from tkinter import *
-from tkinter import ttk
+from tkinter.ttk import Combobox
 
 from src.crud.city import City
-from src.treeview import fetch_data, populate_treeview
+from src.treeview import *
 
 
 class CityApp:
@@ -27,9 +26,14 @@ class CityApp:
         self.id_label = Label(self.id_frame, text="ID", font=self.font, width=5)
         self.id_entry = Entry(self.id_frame, width=5, font=self.font)
 
+            # combobox
+        self.combobox = Combobox(self.id_entry, width=5)
+
         self.id_frame.pack()
         self.id_label.pack(side=LEFT)
         self.id_entry.pack(side=LEFT)
+        self.id_entry.pack()
+
 
         # name
         self.name_frame = Frame(master)
@@ -50,7 +54,7 @@ class CityApp:
         self.state_entry.pack()
 
         # search button
-        self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=10, command=self.select)
+        self.search_button = Button(self.id_frame, text="BUSCAR", font=self.font, width=5, command=self.select)
         self.search_button.pack(side=RIGHT, padx=5)
 
         self.buttons_frame = Frame(master)
@@ -67,14 +71,16 @@ class CityApp:
         # delete button
         self.delete_button = Button(self.buttons_frame, text="DELETAR", font=self.font, width=10, command=self.delete)
         self.delete_button.pack(side=RIGHT)
-
+        
+        """
         # pop-up message
         self.message_frame = Frame(master)
         self.message_label = Label(self.message_frame, text="", font=self.font)
 
         self.message_frame.pack()
         self.message_label.pack()
-
+        """
+        
         # treeview area
         treeview_obj = ttk.Treeview(master, columns=("ID", "NOME", "ESTADO"), show="headings")
 
@@ -82,9 +88,7 @@ class CityApp:
         treeview_obj.heading("NOME", text="NOME")
         treeview_obj.heading("ESTADO", text="ESTADO")
 
-        data = fetch_data("city")
-
-        populate_treeview(treeview_obj, data)
+        # populate_treeview(treeview_obj, fetch_data("city"))
 
         treeview_obj.pack(fill=BOTH, expand=True)
 
@@ -96,7 +100,7 @@ class CityApp:
         self.name_entry.delete(0, END)
         self.state_entry.delete(0, END)
 
-        self.message_label["text"] = city.insert()
+        city.insert()
 
     def delete(self):
         city = City(self.id_entry.get(), self.name_entry.get(), self.state_entry.get())
@@ -105,7 +109,7 @@ class CityApp:
         self.name_entry.delete(0, END)
         self.state_entry.delete(0, END)
 
-        self.message_label["text"] = city.delete()
+        city.delete()
 
     def update(self):
         city = City(self.id_entry.get(), self.name_entry.get(), self.state_entry.get())
@@ -114,7 +118,7 @@ class CityApp:
         self.name_entry.delete(0, END)
         self.state_entry.delete(0, END)
 
-        self.message_label["text"] = city.delete()
+        city.update()
 
     def select(self):
         city = City(self.id_entry.get(), self.name_entry.get(), self.state_entry.get())
@@ -123,7 +127,11 @@ class CityApp:
         self.name_entry.delete(0, END)
         self.state_entry.delete(0, END)
 
-        self.message_label["text"] = city.select(self.id_entry.get())
+        city.select(self.id_entry.get())
+
+    # treeview methods
+
+    def
 
 
 window = Tk()

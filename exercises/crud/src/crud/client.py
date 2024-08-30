@@ -1,6 +1,6 @@
 from src.database.db import Database
+from tkinter import messagebox
 
-database = Database()
 
 
 class Client:
@@ -13,43 +13,51 @@ class Client:
         self.email = email
         self.address = address
 
-    def insert(self) -> str:
+    def insert(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute(
-                "insert into Client (name, cpf, phone, email, address) values ('" + self.name + "', '" + self.cpf + "', '" + self.phone + "', '" + self.email + "', '" + self.address + "')")
-            database.commit()
+                "insert into client (name, cpf, phone, email, address) values ('" + self.name + "', '" + self.cpf + "', '" + self.phone + "', '" + self.email + "', '" + self.address + "')")
+            database.connection.commit()
             database.cursor.close()
 
-            return "Cliente cadastrado com sucesso"
+            return messagebox.showinfo("", "Cliente cadastrado com sucesso.")
 
         except:
-            return "Ocorreu um erro no cadastro de cliente"
+            return messagebox.showerror("", "Erro ao cadastrar cliente.")
 
-    def update(self):
+    def update(self) -> messagebox:
+        database = Database()
+
         try:
             database.cursor.execute(
                 "update client set name = '" + self.name + "', cpf = '" + self.cpf + "', phone = '" + self.phone + "', email = '" + self.email + "' where id = '" + self.id + "'")
             database.connection.commit()
 
-            return "Cliente atualizado!"
+            return messagebox.showinfo("", "Cliente atualizado com sucesso.")
 
         except:
-            return "erro na atualização do cliente!"
+            return messagebox.showerror("", "Erro ao atualizar cliente.")
 
-    def delete(self, client_id):
+    def delete(self) -> messagebox:
+        database = Database()
+
         try:
-            database.cursor.execute("delete from cliente where id = " + client_id + "")
+            database.cursor.execute("delete from client where id = " + self.id + "")
             database.connection.commit()
             database.cursor.close()
 
-            return "Cliente excluído com sucesso!"
+            return messagebox.showinfo("", "Cliente excluido com sucesso.")
 
         except:
-            return "Erro na exclusão do cliente"
+            return messagebox.showerror("", "Erro ao excluir cliente.")
 
-    def select(self, client_id):
+    def select(self, client_id) -> messagebox:
+        database = Database()
+
         try:
-            database.cursor.execute("select * from cliente where id = " + client_id + "")
+            database.cursor.execute("select * from client where id = " + client_id + "")
 
             data = []
 
@@ -63,7 +71,7 @@ class Client:
 
             database.cursor.close()
 
-            return "Busca feita com sucesso!"
+            return messagebox.showinfo("", "Busca feita com sucesso.")
 
         except:
-            return "Ocorreu um erro na busca do usuário"
+            return messagebox.showerror("", "Erro ao buscar cliente.")

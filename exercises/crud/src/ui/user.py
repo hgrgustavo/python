@@ -1,10 +1,15 @@
 """
-connect to crud
-add treeview
+treeview event
+messagebox event
+
+
 """
+
 from tkinter import *
 from src.crud.user import User
 from src.treeview import *
+
+window = Tk()
 
 
 class UserApp:
@@ -20,17 +25,17 @@ class UserApp:
         self.title_label.pack()
 
         # id
-        self.id_frame = Frame(master, padx=20, pady=5)
-        self.id_label = Label(self.id_frame, text="ID", font=self.font, width=5)
+        self.id_frame = Frame(master, padx=20)
+        self.id_label = Label(self.id_frame, text="ID", font=self.font)
         self.id_entry = Entry(self.id_frame, width=5, font=self.font)
 
         # combobox
-        self.combobox = ttk.Combobox(self.id_entry)
+        self.combobox = ttk.Combobox(self.id_entry, width=5)
 
-        self.id_frame.pack()
+        self.id_frame.pack(side=TOP)
         self.id_label.pack(side=LEFT)
         self.id_entry.pack(side=LEFT)
-        self.combobox.pack()
+        self.combobox.pack(side=TOP)
 
         # name
         self.name_frame = Frame(master, padx=20, pady=5)
@@ -117,8 +122,6 @@ class UserApp:
 
         populate_treeview(treeview_obj, data)
 
-        treeview_obj.bind("<<TreeviewSelect>>", select_event_user)
-
         treeview_obj.pack(fill=BOTH, expand=True)
 
     # crud methods
@@ -133,7 +136,7 @@ class UserApp:
         self.username_entry.delete(0, END)
         self.password_entry.delete(0, END)
 
-        self.message_label["text"] = user.insert()
+        user.insert()
 
     def update(self):
         user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
@@ -146,7 +149,7 @@ class UserApp:
         self.username_entry.delete(0, END)
         self.password_entry.delete(0, END)
 
-        self.message_label["text"] = user.update()
+        user.update()
 
     def delete(self):
         user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
@@ -159,7 +162,7 @@ class UserApp:
         self.username_entry.delete(0, END)
         self.password_entry.delete(0, END)
 
-        self.message_label["text"] = User.delete(user)
+        User.delete(user)
 
     def select(self):
         user = User(self.id_entry.get(), self.name_entry.get(), self.phone_entry.get(), self.email_entry.get(),
@@ -172,10 +175,9 @@ class UserApp:
         self.username_entry.delete(0, END)
         self.password_entry.delete(0, END)
 
-        self.message_label["text"] = User.select(user, self.id_entry.get())
+        User.select(user, self.id_entry.get())
 
 
-window = Tk()
 UserApp(window)
 window.geometry("920x650")
 window.mainloop()

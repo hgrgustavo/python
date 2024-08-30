@@ -1,14 +1,3 @@
-"""
-Criar uma nova tabela no banco
-    - cidades
-    - clientes
-
-Altere a aplicação
-    - Botão usuário (login)
-    - Botão cidades (cidae estado, pais)
-    - Botão clientes (nome, cpf, email)
-
-"""
 import sqlite3
 
 
@@ -20,6 +9,7 @@ class Database:
         self.create_table_user()
         self.create_table_city()
         self.create_table_client()
+
 
     def create_table_user(self):
         self.cursor.execute("""
@@ -55,6 +45,13 @@ class Database:
                     )
         """)
 
-    def commit(self):
-        self.connection.commit()
+    def fetch_data(self, table: str):
+        if self.cursor.execute("select * from '" + table + "'"):
+            return self.cursor.fetchall()
+
         self.cursor.close()
+
+
+        
+
+

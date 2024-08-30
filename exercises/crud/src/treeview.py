@@ -1,19 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
-import sqlite3
-
-
-# Função para conectar ao banco de dados e buscar os dados
-def fetch_data(table: str):
-    conn = sqlite3.connect("sqlite3.db")  # Conectando ao banco de dados
-    cursor = conn.cursor()
-
-    # Executando uma consulta SQL para pegar todos os dados da tabela
-    cursor.execute("SELECT * FROM '" + table + "'")
-    rows = cursor.fetchall()  # Buscando todos os resultados
-    conn.close()
-
-    return rows
 
 
 # Função para popular a Treeview com os dados do banco
